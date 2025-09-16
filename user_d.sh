@@ -19,9 +19,13 @@ macid=$(cat /tmp/macid)
 local_ipv4=$(cat /tmp/local_ipv4)
 az=$(cat /tmp/az)
 vpc=$(curl -H "X-aws-ec2-metadata-token: $TOKEN" -s http://169.254.169.254/latest/meta-data/network/interfaces/macs/${macid}/vpc-id)
+HOST_NAME=$(hostname -f)
 
 # 3. Create the HTML file using a Heredoc
 # The shell will replace the variables like $local_ipv4 with the values we got from curl.
+# Using a "heredoc" (here document) - a cleaner way to write multi-line text
+# "cat << EOF" means "output everything until you see 'EOF' on its own line"
+# This is easier to read than using echo with quotes, especially for HTML
 cat <<EOF > /var/www/html/index.html
 <!doctype html>
 <html lang="en">
@@ -36,16 +40,16 @@ cat <<EOF > /var/www/html/index.html
         <h1>AWS Instance Details</h1>
         <h2>All done in Terraform with love and Diddy Oil.</h2>
         
-        <p>I, Jaune Alcide, Thank Theo and Senpais, For Teaching Me About EC2's In Aws. One Step Closer To Escaping Keisha!</p>
-        <p><strong>With This Class, I Will Net \$500,000 Per Year!</strong></p>
+        <p>I, Jaune Alcide, Thank Theo and My Senpais, For Teaching Me About EC2's In Aws. One Step Closer To Escaping Keisha!</p>
+        <p><strong>With This Class, I Will Net >\$500,000 Per Year!</strong></p>
 
         <div class="image-gallery">
-            <img class="content-image" src="https://i.redd.it/pnwd56twsly01.jpg" alt="Samurai in a field">
-            <img class="content-image" src="https://res.cloudinary.com/jnto/image/upload/w_800,h_700,c_fill,f_auto,fl_lossy,q_60/v1/media/filer_public/ec/e8/ece82cd1-74bc-4afa-a570-e4639de60680/landscape_-_pl-999136490927_mf8fcv" alt="Japanese landscape">
+            <img class="content-image" src="https://i.redd.it/cxr15emq1jl51.jpg" alt="Japanese/Brazilian 1">
+            <img class="content-image" src="https://preview.redd.it/do7ztf7zqq971.jpg?width=1080&crop=smart&auto=webp&s=3d3012bb4477c629775efc330bc86657d9a3b185" alt="Japanese/Brazilian 2">
         </div>
 
         <div class="instance-info">
-            <p><b>Instance Name:</b> ${hostname}</p>
+            <p><b>Instance Name:</b> ${HOST_NAME}</p>
             <p><b>Instance Private Ip Address: </b> ${local_ipv4}</p>
             <p><b>Availability Zone: </b> ${az}</p>
             <p><b>Virtual Private Cloud (VPC):</b> ${vpc}</p>
@@ -53,11 +57,11 @@ cat <<EOF > /var/www/html/index.html
 
         <div class="button-container">
             <a href="https://media.distractify.com/brand-img/b6ZdwIUc-/2160x1131/dank-demoss-posing-1739314188846.jpg" target="_blank" class="repo-button">
-                This is all yours, if you don't read.
+                Don't want to read? Great, have this!
             </a>
 
         <a href="https://github.com/Jae1-alt/c7_250915_simple_ec2.git" target="_blank" class="repo-button">
-            Here's the Repo
+            This project's GitHub Repo.
         </a>
     </div>
 </body>
