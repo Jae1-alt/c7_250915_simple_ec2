@@ -7,7 +7,7 @@ variable "region" {
 variable "vpc_cidr" {
   type        = string
   description = "Desired CIDR for VPC"
-  default     = "10.0.0.0/16"
+  default     = "10.190.0.0/16"
 }
 
 variable "public_subnets" {

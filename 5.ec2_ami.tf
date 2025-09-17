@@ -4,7 +4,7 @@ data "aws_ami" "amazon_linux" {
 
   filter {
     name   = "name"                           #this wildcard pattern matches the heading for AMI for Amazin Lnexs AMI  
-    values = ["al2023-ami-*-kernel-*-x86_64"] #note that the '*' abstracts various changable numbers, like creation date and version number
+    values = ["al2023-ami-2023.*-kernel-*-x86_64"] #note that the '*' abstracts various changable numbers, like creation date and version number
   }
 }
 
