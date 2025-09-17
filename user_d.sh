@@ -21,7 +21,6 @@ az=$(cat /tmp/az)
 vpc=$(curl -H "X-aws-ec2-metadata-token: $TOKEN" -s http://169.254.169.254/latest/meta-data/network/interfaces/macs/${macid}/vpc-id)
 HOST_NAME=$(hostname -f)
 
-# 3. Create the HTML file using a Heredoc
 # The shell will replace the variables like $local_ipv4 with the values we got from curl.
 # Using a "heredoc" (here document) - a cleaner way to write multi-line text
 # "cat << EOF" means "output everything until you see 'EOF' on its own line"
@@ -105,7 +104,6 @@ h1 {
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
 }
 
-/* --- UPDATED --- */
 .image-gallery {
   display: flex;
   justify-content: center;
