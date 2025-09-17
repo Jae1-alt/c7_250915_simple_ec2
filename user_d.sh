@@ -80,6 +80,7 @@ body {
   margin: 0;
   padding: 20px;
 
+
   min-height: 100vh; /* Make the body at least the full screen height */
   display: flex;
   align-items: center;
