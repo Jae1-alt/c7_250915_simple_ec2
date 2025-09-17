@@ -80,7 +80,6 @@ body {
   margin: 0;
   padding: 20px;
 
-  /* These new properties will help center the container vertically */
   min-height: 100vh; /* Make the body at least the full screen height */
   display: flex;
   align-items: center;
