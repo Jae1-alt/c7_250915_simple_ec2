@@ -116,7 +116,7 @@ If you run the configuration with the default settings, a successful terraform a
 
 Once the apply is complete, check the outputs to get the public IP address of your new web server!
 
-With a default web server that looks like the following:
+With a default web server that looks something like the following:
 
 ![](attachment/3c2d1e0f0e3abff44a5949bde2fe29a1.png)
 
