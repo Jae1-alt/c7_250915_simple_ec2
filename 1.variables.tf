@@ -11,15 +11,17 @@ variable "vpc_cidr" {
 }
 
 variable "public_subnets" {
-  type = map(number)
+  description = "The 'key : value' pair in the this variable will be used to create the subnets, number of subnets(based on the number of 'key:value' pairs, and the 'value' in the pair will be used to create the associeted subnet(s))"
+  type        = map(number)
   default = {
     "class7_a" = 0
   }
 }
 
 variable "vpc_name" {
-  type    = string
-  default = "c7_brazil"
+  description = "Name of VPC"
+  type        = string
+  default     = "c7_2_brazil"
 }
 
 variable "ingress_ipv4_ssh" {

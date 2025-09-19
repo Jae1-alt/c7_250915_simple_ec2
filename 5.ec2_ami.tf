@@ -3,7 +3,7 @@ data "aws_ami" "amazon_linux" {
   owners      = ["amazon"] # this is a critical security filter to ensure we only get official, trusted images.
 
   filter {
-    name   = "name"                           #this wildcard pattern matches the heading for AMI for Amazin Lnexs AMI  
+    name   = "name"                                #this wildcard pattern matches the heading for AMI for Amazin Lnexs AMI  
     values = ["al2023-ami-2023.*-kernel-*-x86_64"] #note that the '*' abstracts various changable numbers, like creation date and version number
   }
 }

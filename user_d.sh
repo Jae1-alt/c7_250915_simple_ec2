@@ -25,6 +25,7 @@ HOST_NAME=$(hostname -f)
 # Using a "heredoc" (here document) - a cleaner way to write multi-line text
 # "cat << EOF" means "output everything until you see 'EOF' on its own line"
 # This is easier to read than using echo with quotes, especially for HTML
+# '/var/www/html/index.html' is the location of the html script on the new server
 cat <<EOF > /var/www/html/index.html
 <!doctype html>
 <html lang="en">
@@ -39,7 +40,7 @@ cat <<EOF > /var/www/html/index.html
         <h1>AWS Instance Details</h1>
         <h2>All done in Terraform with love and Diddy Oil.</h2>
         
-        <p>I, Jaune Alcide, Thank Theo and My Senpais, For Teaching Me About EC2's In Aws. One Step Closer To Escaping Keisha!</p>
+        <p>I, Jaune Alcide, thank Suge WAF and My Senpais, For Teaching Me About EC2's in Aws. One Step Closer To Escaping Keisha!</p>
         <p><strong>With This Class, I Will Net >\$500,000 Per Year!</strong></p>
 
         <div class="image-gallery">
