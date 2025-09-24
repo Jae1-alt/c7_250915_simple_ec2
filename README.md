@@ -1,8 +1,8 @@
 
-Readme to be updated....
+Work is progress ReadMe.....
 
 ---
-# 🔥 My Awesome EC2 Web Server Project 🔥
+# 🔥 My Simple EC2 Web Server Project 🔥
 
 A simple yet robust Terraform project to deploy a public-facing EC2 web server on AWS. This configuration builds a complete, best-practice network foundation; from subnet(s) with security group(s), all attached to an appropriate VPC, with attached Internet Gateway  and associated routing. All built to house the launch of the created web server. 
 
@@ -112,31 +112,91 @@ Getting this infrastructure up and running is simple. Once you have downloaded o
 
 If you run the configuration with the default settings, a successful terraform apply should give the following result in your terminal.
 
-![](attachment/9d582716df537ebb55bd888764489ef1.png)
+![](attachment/a24555d49d8da4dea2083c0e27305778.png)
 
 Once the apply is complete, check the outputs to get the public IP address of your new web server!
 
 With a default web server that looks something like the following:
 
-![](attachment/3c2d1e0f0e3abff44a5949bde2fe29a1.png)
+![](attachment/61cdc7c724b4914ecdb0905063326784.png)
 
 
 ---
 
-## 🧩Summary of the used Modules and their Contents
+## 🧩Summary of the files and their Contents
 
-_(will be updated soon)_
+The main files for this configuration are split into a few `.tf` files. I'll be going over the main files and giving some explanations of their key parts and how they work to meet the project's goals. While not a necessity when using Terraform, breaking down the code into different, appropriately-named files is a great way to make the configuration clear and more easily understandable for yourself and anyone else who reads it.
+
+![](attachment/9e23c4636755bb8ebce609af91a8867e.png)
+
+### 0.terraform.tf file
+
+![](attachment/b99c9a60db60704eac20a76853ac6272.png)
+
+This file contains the `terraform` block, which includes the `required_providers` and `required_version` settings. These blocks define the specific versions of the AWS provider and the Terraform CLI, respectively, that this configuration is designed to work with, ensuring a consistent and predictable environment.
+
+
+### 1.variables.tf file
+
+![](attachment/fa1c4b30fdb4b63700fc7afb1162bfbd.png) 
+
+This file contains the input `variable` and `locals` blocks that are referenced throughout the configuration. Note that while both input variables (referenced with `var.<NAME>`) and local values (referenced with `local.<NAME>`) can be used throughout the module, only **input variables** are meant to **receive** values from outside the module (e.g., from a `.tfvars` file).
+
+### 2.vpc_igw_subnet.tf file 
+
+![](attachment/e621464f1ccfe564cb2022f6a43357b3.png)
+
+This file contains the configuration for the foundational network components: the VPC, Internet Gateway, and the public subnets. Note the use of `var.` and `local.` references, which makes the code DRY (Don't Repeat Yourself) by centralizing configuration data.
+
+Please note the use of the `for_each` meta-argument on the `aws_subnet` resource. This powerful feature creates multiple instances of the resource—one for each entry in the `var.public_subnets` map. With this implementation, the number of key-value pairs in the `public_subnets` variable directly controls the number of subnets created in AWS. 
+
+Remember that the `var.subnets` refers to 'public_subnets' variable defined in the 1.variables.tf. And since its a map it perfectly fits the use case for the `for_each` meta argument. Also with this implementation, the number of values correctly placed in the "public_subnets" variable will have a direct correlation to the number of `resource "aws_subnet" "public_subnet"` blocks created, and thus the number of subnets created in AWS.
+
+### 3.routing.tf
+
+![](attachment/98441e508a47de1631a0fa787de49c7e.png)
+
+This file contains the `route table` and `route table association` resources that define traffic routing within the VPC. Note again, the use of the `for_each` meta-argument to produce the needed route table associations for each created subnet.
+
+### 4.sg.tf
+
+![](attachment/519f45ad61bad39c751bdd40a01bac33.png)
+
+This file contains the resources that define the `aws_security_group` and its associated rules. These rules act as a stateful firewall for the EC2 instances. Note the use of variables within the `cidr_ipv4` argument (`var.ingress_ipv4_http` and `var.ingress_ipv4_ssh`), which allows the user to easily change the allowed source IP ranges.
+
+### 5.ec2_ami.tf
+
+![](attachment/fe672f4e345603bd2920704e8b1b9b71.png)
+
+This file contains the `data "aws_ami"` block to find a machine image and the `resource "aws_instance"` blocks to build the EC2 instances. The `for_each` meta-argument is used again to create one EC2 instance for each subnet.
+
+The `data "aws_ami"` block is used to dynamically look up the latest official Amazon Linux 2023 AMI. It uses a `filter` with a wildcard (`*`) to match the naming pattern. The `most_recent = true` argument then ensures that Terraform selects only the newest image from the results that match the pattern.
+
+### output.tf
+
+![](attachment/55543f2417a4c85cf8b31a2a97334d47.png)
+
+This file contains `output` blocks to display the public DNS hostnames and public IPv4 addresses for each EC2 instance created by the configuration.
+
 
 
 ---
 
 ## ⚠️ Limitations
 
-_(This section will highlight some current limitations with the configuration as is. Will be updates soon)_
+The following are some limitations i've observed with the current project:
+- the number of EC2's per subnet is limited to one,
+- this project can only use only two ingress rules with this configuration.
+- the AMI allowed by this config is not user selectable
+- the scripted used by the EC2 is not user selectable
 
 ## ✨ Potential Improvements
 
-_(This section will have some, upgrades i have in mind for the project.)_
+These are some improvements I have in mind for the project.
+- the ability to vary the number of EC's for the project
+- use variables to allow for user AMI selection
+- use variables to make the script for the user data, user selectable
+- try to me each EC2 instance generated have the ability to choose its own script for its user data.
 
 
 ## 📚 References
