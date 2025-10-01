@@ -83,8 +83,8 @@ The following outputs will be displayed after a successful apply:
 
 | Name                    | Description                                                |
 | :---------------------- | :--------------------------------------------------------- |
-| `web_server_public_ip`  | The public IP address of the deployed EC2 web server(s).   |
-| `web_server_public_dns` | The public DNS hostname of the deployed EC2 web server(s). |
+| `first7_public_ip`  | The public IP address of the deployed EC2 web server(s).   |
+| `first7_public_dns` | The public DNS hostname of the deployed EC2 web server(s). |
 
 ---
 
